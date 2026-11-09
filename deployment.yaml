@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-case
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-case
+  template:
+    metadata:
+      labels:
+        app: test-case
+    spec:
+      containers:
+      - name: test-case-container
+        image: qiuopa/test-case:latest
+        ports: [{name: http, containerPort: 32777}]
+        readinessProbe: {httpGet: {path: /health, port: http}}
+        livenessProbe: {httpGet: {path: /health, port: http}}
